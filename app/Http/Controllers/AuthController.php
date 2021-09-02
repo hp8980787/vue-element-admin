@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -101,9 +102,10 @@ class AuthController extends Controller
     public function userProfile()
     {
         $user = auth('api')->user();
-        $user->introdution = '';
-        $user->avatar = '';
-        $user->roles = 'admin';
+        $user->introdution = 'test';
+        $rand = Hash::make('19960124');
+        $user->avatar = "http://www.gravatar.com/avatar/{$rand}?s=100";
+        $user->roles = ['admin'];
         return response()->json(['code'=>200,'data'=>$user]);
     }
 
