@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -81,7 +84,7 @@ class AuthController extends Controller
     {
         auth('api')->logout();
 
-        return response()->json(['message' => 'User successfully signed out','code'=>200]);
+        return response()->json(['message' => 'User successfully signed out', 'code' => 200]);
     }
 
     /**
@@ -102,11 +105,8 @@ class AuthController extends Controller
     public function userProfile()
     {
         $user = auth('api')->user();
-        $user->introdution = 'test';
-        $rand = Hash::make('19960124');
-        $user->avatar = "http://www.gravatar.com/avatar/{$rand}?s=100";
         $user->roles = ['admin'];
-        return response()->json(['code'=>200,'data'=>$user]);
+        return response()->json(['code' => 200, 'data' => $user]);
     }
 
     /**
@@ -120,13 +120,43 @@ class AuthController extends Controller
     {
         return response()->json([
 
-            'code'=>200,
-            'data'=>[
+            'code' => 200,
+            'data' => [
                 'token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth('api')->factory()->getTTL() * 60,
                 'user' => auth('api')->user(),
             ]
+        ]);
+    }
+
+    public function avatar(Request $request)
+    {
+
+        $name = now()->format('Y-m-d') . Str::random(15) . '.jpg';
+        $file =  $request->avatar->storeAs('public', $name);
+        $url = Storage::url($file);
+        $data = [
+            'files' => [
+                'avatar' => getenv('APP_URL') . '/' . $url,
+            ]
+        ];
+        return response()->json([
+            'code' => 200, 'data' => $data
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|min:2|max:99',
+        ], $request->all());
+        $user = auth('api')->user();
+        User::query()->where('id', $user->id)->update($request->all());
+        return response()->json([
+            'code' => 200,
+            'data' => '',
+            'msg' => 'success'
         ]);
     }
 }
