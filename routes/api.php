@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +16,7 @@ use App\Http\Controllers\AuthController;
 */
 
 
-
-Route::group(['middleware'=>'api','prefix'=>config('admin.prefix') ],function($router){
+Route::group(['middleware' => 'api', 'prefix' => config('admin.prefix')], function ($router) {
     Route::group([
         'middleware' => 'api',
         'prefix' => 'auth'
@@ -28,7 +28,8 @@ Route::group(['middleware'=>'api','prefix'=>config('admin.prefix') ],function($r
         Route::post('/refresh', [AuthController::class, 'refresh']);
         Route::get('/user-profile', [AuthController::class, 'userProfile']);
         Route::post('/avatar-uploads', [AuthController::class, 'avatar']);
-        Route::put('/user-update',[AuthController::class,'update']);
+        Route::put('/user-update', [AuthController::class, 'update']);
     });
-   $router->resource('roles',\App\Http\Controllers\Api\RolesController::class);
+    $router->resource('roles', \App\Http\Controllers\Api\RolesController::class);
+    $router->resource('permissions', \App\Http\Controllers\Api\PermissionsController::class);
 });
