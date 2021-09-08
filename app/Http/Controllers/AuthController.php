@@ -133,7 +133,7 @@ class AuthController extends Controller
     public function avatar(Request $request)
     {
 
-        $name = now()->format('Y-m-d') . Str::random(15) . '.jpg';
+        $name = now()->format('Ymd') . Str::random(15) . '.jpg';
         $file =  $request->avatar->storeAs('public', $name);
         $url = Storage::url($file);
         $data = [
