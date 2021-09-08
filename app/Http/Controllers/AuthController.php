@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\Api\UserResource;
 
 class AuthController extends Controller
 {
@@ -104,7 +105,9 @@ class AuthController extends Controller
      */
     public function userProfile()
     {
+        $hash = Hash::make('643711690@qq.com');
         $user = auth('api')->user();
+//        $user->avatar = $user->avatar?: "http://www.gravatar.com/avatar/$hash?s=300";
         $user->roles = ['admin'];
         return response()->json(['code' => 200, 'data' => $user]);
     }

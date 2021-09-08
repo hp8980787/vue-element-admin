@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends JsonResource
 {
@@ -15,14 +16,15 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $hash = Hash::make($this->email);
         return [
-            'id'=>$this->id,
+            'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'created_at' =>Carbon::create($this->created_at)->format('Y-m-d H:i:s'),
-            'avatar'=>$this->avatar,
-            'introdution'=>$this->introdution,
-            'roles'=>$this->roles,
+            'created_at' => Carbon::create($this->created_at)->format('Y-m-d H:i:s'),
+            'avatar' => $this->avatar?: "http://www.gravatar.com/avatar/$hash?s=300",
+            'introdution' => $this->introdution,
+            'roles' => $this->roles,
         ];
     }
 }
