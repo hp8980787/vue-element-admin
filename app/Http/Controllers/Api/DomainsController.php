@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Domain;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use  App\Http\Resources\Api\RoleResource;
 
-class RolesController extends Controller
+class DomainsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $roles = Role::query()->get();
-        return response()->json(['code' => 200, 'data' => RoleResource::collection($roles)]);
+        $domains = Domain::query()->get();
+        return response()->json(['code' => 200, 'data' => $domains]);
     }
 
     /**
@@ -38,9 +37,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        Role::create(['name' => $request->name]);
-
-        return response()->json(['code' => 200]);
+        //
     }
 
     /**
@@ -74,10 +71,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $role = Role::query()->findOrFail($id);
-        $role->name = $request->name;
-        $role->save();
-        return response(['code' => 200, 'data' =>'' ]);
+        //
     }
 
     /**
@@ -88,7 +82,6 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        Role::query()->where('id', $id)->delete();
-        return response(['code' => 200]);
+        //
     }
 }

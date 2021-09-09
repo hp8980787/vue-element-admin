@@ -105,10 +105,13 @@ class AuthController extends Controller
      */
     public function userProfile()
     {
-        $hash = Hash::make('643711690@qq.com');
         $user = auth('api')->user();
 //        $user->avatar = $user->avatar?: "http://www.gravatar.com/avatar/$hash?s=300";
-        $user->roles = ['admin'];
+//        $roles = $user->with('roles')->get();
+        $roles = $user->getRoleNames();
+        $user = $user->toArray();
+        $user['roles'] = $roles;
+
         return response()->json(['code' => 200, 'data' => $user]);
     }
 

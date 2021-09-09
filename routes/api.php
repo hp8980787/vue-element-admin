@@ -34,4 +34,6 @@ Route::group(['middleware' => 'api', 'prefix' => config('admin.prefix')], functi
     $router->resource('permissions', \App\Http\Controllers\Api\PermissionsController::class);
     $router->resource('users',\App\Http\Controllers\Api\UsersController::class);
     $router->post('users-assign-roles',[\App\Http\Controllers\Api\UsersController::class,'assignRole']);
+    $router->get('users-get-roles',[\App\Http\Controllers\Api\UsersController::class,'roles']);
+    $router->resource('domains',\App\Http\Controllers\Api\DomainsController::class);
 });

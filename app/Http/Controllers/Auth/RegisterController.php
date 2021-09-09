@@ -64,10 +64,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $default = "https://www.somewhere.com/homestar.jpg";
+        $size = 40;
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'introdution'=>"hello wolrd",
+            'avatar' =>  "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $data['email'] ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size,
+
         ]);
     }
 }

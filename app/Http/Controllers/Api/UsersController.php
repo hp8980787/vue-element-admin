@@ -19,8 +19,17 @@ class UsersController extends Controller
     public function assignRole(Request $request)
     {
         $user = User::query()->findOrFail($request->userid);
-        $roles = Role::query()->whereIn('id',$request->roles)->get();
-        $user->assignRole($roles);
-        return response()->json(['code'=>200,'data'=>$user]);
+
+            $roles = Role::query()->whereIn('id', $request->roles)->get();
+            $user->syncRoles($roles);
+
+        return response()->json(['code' => 200, 'data' => $user]);
+    }
+
+    public function roles(Request $request)
+    {
+        $user = User::query()->with('roles')->findOrFail($request->id);
+        return response()->json(['code' => 200, 'data' => $user]);
+
     }
 }
