@@ -38,4 +38,5 @@ Route::group(['middleware' => 'api', 'prefix' => config('admin.prefix')], functi
     $router->post('users-domains',[\App\Http\Controllers\Api\UsersController::class,'domains']);
     $router->get('users-domains',[\App\Http\Controllers\Api\UsersController::class,'domainsList']);
     $router->resource('domains',\App\Http\Controllers\Api\DomainsController::class);
+    $router->get('domains-all',[\App\Http\Controllers\Api\DomainsController::class,'allDomains']);
 });

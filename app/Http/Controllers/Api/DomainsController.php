@@ -84,4 +84,10 @@ class DomainsController extends Controller
     {
         //
     }
+    public function allDomains()
+    {
+
+        $domains = Domain::query()->get();
+        return response()->json(['code' => 200, 'data' => $domains]);
+    }
 }
