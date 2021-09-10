@@ -15,7 +15,7 @@ class DomainsController extends Controller
      */
     public function index()
     {
-        $domains = Domain::query()->get();
+        $domains = Domain::query()->paginate(30);
         return response()->json(['code' => 200, 'data' => $domains]);
     }
 

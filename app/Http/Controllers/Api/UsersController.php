@@ -20,8 +20,8 @@ class UsersController extends Controller
     {
         $user = User::query()->findOrFail($request->userid);
 
-            $roles = Role::query()->whereIn('id', $request->roles)->get();
-            $user->syncRoles($roles);
+        $roles = Role::query()->whereIn('id', $request->roles)->get();
+        $user->syncRoles($roles);
 
         return response()->json(['code' => 200, 'data' => $user]);
     }
@@ -29,6 +29,21 @@ class UsersController extends Controller
     public function roles(Request $request)
     {
         $user = User::query()->with('roles')->findOrFail($request->id);
+        return response()->json(['code' => 200, 'data' => $user]);
+
+    }
+
+    public function domains(Request $request)
+    {
+        $user = User::query()->findOrFail($request->id);
+        $user->domains()->sync($request->domains);
+
+        return response()->json(['code' => 200, 'data' => '']);
+    }
+
+    public function domainsList(Request $request)
+    {
+        $user = User::query()->with('domains')->findOrFail($request->id);
         return response()->json(['code' => 200, 'data' => $user]);
 
     }

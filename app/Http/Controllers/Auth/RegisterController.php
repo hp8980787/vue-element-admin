@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'introdution'=>"hello wolrd",
+            'introdution'=>"hello wold",
             'avatar' =>  "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $data['email'] ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size,
 
         ]);
