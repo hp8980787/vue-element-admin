@@ -69,6 +69,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function domains()
     {
-        return $this->belongsToMany(Domain::class,'user_domain','user_id','domain_id')->withTimestamps();
+        return $this->belongsToMany(Database::class,'user_domain','user_id','domain_id')->withTimestamps();
     }
 }
