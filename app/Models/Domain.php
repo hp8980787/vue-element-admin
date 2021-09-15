@@ -15,4 +15,18 @@ class Domain extends Model
     {
         return Carbon::create($value)->format('Y-m-d H:i:s');
     }
+
+
+    public function getCheckStatusAttribute($value)
+    {
+        switch ($value) {
+            case -1:
+                return 'checked_fail';
+            case 0:
+                return 'not_checked';
+            case 1:
+                return 'checked';
+        }
+    }
+
 }
