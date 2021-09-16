@@ -11,6 +11,8 @@ class Domain extends Model
 
     use HasFactory;
 
+    protected $fillable = ['name','url','country','remind_time'];
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::create($value)->format('Y-m-d H:i:s');

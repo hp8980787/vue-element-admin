@@ -15,7 +15,7 @@ class DomainsController extends Controller
      */
     public function index()
     {
-        $domains = Domain::query()->orderBy('check_status','asc')->paginate(30);
+        $domains = Domain::query()->orderBy('check_status', 'asc')->paginate(30);
         return response()->json(['code' => 200, 'data' => $domains]);
     }
 
@@ -37,7 +37,10 @@ class DomainsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = array_filter($request->only('url', 'name', 'remind_time'));
+//
+        Domain::query()->create($data);
+        return response()->json(['code' => 200, 'data' => '']);
     }
 
     /**
@@ -84,10 +87,12 @@ class DomainsController extends Controller
     {
         //
     }
+
     public function allDomains()
     {
 
         $domains = Domain::query()->get();
         return response()->json(['code' => 200, 'data' => $domains]);
     }
+
 }
