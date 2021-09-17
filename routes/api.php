@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -41,4 +42,6 @@ Route::group(['middleware' => 'api', 'prefix' => config('admin.prefix')], functi
     $router->get('databases-all',[\App\Http\Controllers\Api\DatabasesController::class,'allDatabases']);
     $router->resource('domains',\App\Http\Controllers\Api\DomainsController::class);
     $router->get('domains-all',[\App\Http\Controllers\Api\DomainsController::class,'allDomains']);
+    $router->get('domains-check-expired-time',[\App\Http\Controllers\Api\DomainsController::class,'check']);
+    $router->get('orders-database',[\App\Http\Controllers\Api\OrdersController::class,'database']);
 });

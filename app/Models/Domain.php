@@ -11,7 +11,7 @@ class Domain extends Model
 
     use HasFactory;
 
-    protected $fillable = ['name','url','country','remind_time'];
+    protected $fillable = ['name','url','country','remind_time','expired_time','check_status','check_time'];
 
     public function getCreatedAtAttribute($value)
     {

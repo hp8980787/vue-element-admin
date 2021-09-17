@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use  App\Models\User;
+use App\Models\User;
 use App\Http\Resources\Api\UserResource;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -30,7 +31,6 @@ class UsersController extends Controller
     {
         $user = User::query()->with('roles')->findOrFail($request->id);
         return response()->json(['code' => 200, 'data' => $user]);
-
     }
 
     public function domains(Request $request)
@@ -43,8 +43,9 @@ class UsersController extends Controller
 
     public function domainsList(Request $request)
     {
-        $user = User::query()->with('domains')->findOrFail($request->id);
-        return response()->json(['code' => 200, 'data' => $user]);
-
+        $user = auth('api')->user();
+        $domains = $user->domains()->get();;
+        
+        return response()->json(['code' => 200, 'data' => $domains]);
     }
 }
