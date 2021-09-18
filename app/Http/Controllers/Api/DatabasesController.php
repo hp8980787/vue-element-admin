@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Database;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class DatabasesController extends Controller
 {
@@ -87,7 +89,37 @@ class DatabasesController extends Controller
 
     public function allDatabases()
     {
-        $databases = Database::query()->get();
+        $databases = Database::query()->latest('created_at')->get();
         return response()->json(['code' => 200, 'data' => $databases]);
+    }
+
+    public function tablesName(Request $request, $id)
+    {
+        $database = Database::query()->findOrFail($id);
+        setDatabase('order', $database);
+        $names = DB::connection('order')->select("show tables");
+        $data = [];
+        foreach ($names as $name) {
+            foreach ($name as $val) {
+                $data[] = $val;
+            }
+        }
+
+        return response()->json(['code' => 200, 'data' => $data]);
+    }
+
+    public function tablesInfo(Request $request, $id)
+    {
+        $data = [];
+        $database = Database::query()->findOrFail($id);
+        setDatabase('order', $database);
+        if ($request->has('table_name')) {
+            $table = $request->table_name;
+            $columns = DB::connection('order')->select("show full columns from $table");
+            foreach ($columns as $column) {
+                $data[] = $column->Field;
+            }
+        }
+        return response()->json(['code' => 200, 'data' => $data]);
     }
 }

@@ -38,10 +38,16 @@ Route::group(['middleware' => 'api', 'prefix' => config('admin.prefix')], functi
     $router->get('users-get-roles',[\App\Http\Controllers\Api\UsersController::class,'roles']);
     $router->post('users-domains',[\App\Http\Controllers\Api\UsersController::class,'domains']);
     $router->get('users-domains',[\App\Http\Controllers\Api\UsersController::class,'domainsList']);
-    $router->resource('databases',\App\Http\Controllers\Api\DatabasesController::class);
-    $router->get('databases-all',[\App\Http\Controllers\Api\DatabasesController::class,'allDatabases']);
+
     $router->resource('domains',\App\Http\Controllers\Api\DomainsController::class);
     $router->get('domains-all',[\App\Http\Controllers\Api\DomainsController::class,'allDomains']);
     $router->get('domains-check-expired-time',[\App\Http\Controllers\Api\DomainsController::class,'check']);
+
+    $router->get('databases/{id}/tables-name/',[\App\Http\Controllers\Api\DatabasesController::class,'tablesName']);
+    $router->get('databases/{id}/tables-info/',[\App\Http\Controllers\Api\DatabasesController::class,'tablesInfo']);
+    $router->resource('databases',\App\Http\Controllers\Api\DatabasesController::class);
+    $router->get('databases-all',[\App\Http\Controllers\Api\DatabasesController::class,'allDatabases']);
+
     $router->get('orders-database',[\App\Http\Controllers\Api\OrdersController::class,'database']);
+    $router->resource('tables',\App\Http\Controllers\Api\TablesController::class);
 });
