@@ -48,6 +48,8 @@ Route::group(['middleware' => 'api', 'prefix' => config('admin.prefix')], functi
     $router->resource('databases',\App\Http\Controllers\Api\DatabasesController::class);
     $router->get('databases-all',[\App\Http\Controllers\Api\DatabasesController::class,'allDatabases']);
 
-    $router->get('orders-database',[\App\Http\Controllers\Api\OrdersController::class,'database']);
     $router->resource('tables',\App\Http\Controllers\Api\TablesController::class);
+
+
+    $router->get('order-database',[\App\Http\Controllers\Api\OrdersController::class,'database']);
 });

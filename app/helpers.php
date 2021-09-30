@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 
-function setDatabase(string $connection, object $database): void
+function setDatabase( object $database,string $connection='order'): void
 {
     Config::set('database.connections.' . $connection, [
         'driver' => 'mysql',

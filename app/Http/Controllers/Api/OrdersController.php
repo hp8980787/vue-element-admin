@@ -12,27 +12,16 @@ class OrdersController extends Controller
 {
     public function database(Request $request)
     {
-        $databate = Database::query()->with(['tables'=>function($query){
-            $query->where('type_id',2);
+        $databate = Database::query()->with(['tables' => function ($query) {
+            $query->where('type_id', 2);
         }])->findOrFail($request->id);
-        Config::set('database.connections.order',[
-            'driver' => 'mysql',
-            'host' =>$databate->ip,
-            'port' => $databate->port,
-            'database' => $databate->database,
-            'username' => $databate->username,
-            'password' => $databate->passwd,
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-        ]);
-        foreach($databate->tables as $table){
-           $res = DB::connection('order')->table($table->name)->limit(5)->get();
-           dd($res);
+        setDatabase($databate);
+        foreach ($databate->tables as $table) {
+            $res = DB::connection('order')->table($table->name)->latest($table->time_column)->paginate(10);
         }
 
-        return response()->json(['code' => 200, 'data' => '']);
+        return response()->json(['code' => 200, 'data' => $res]);
     }
+
+
 }
