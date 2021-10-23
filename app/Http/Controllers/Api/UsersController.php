@@ -44,8 +44,9 @@ class UsersController extends Controller
     public function domainsList(Request $request)
     {
         $user = auth('api')->user();
-        $domains = $user->domains()->get();;
-        
+        $domains = $user->domains()->get();
+
+
         return response()->json(['code' => 200, 'data' => $domains]);
     }
 }

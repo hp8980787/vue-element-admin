@@ -50,7 +50,8 @@ class DatabasesController extends Controller
      */
     public function show($id)
     {
-        //
+        $databases = Database::query()->with(['tables','users'])->findOrFail($id);
+        return response(['code' => 200, 'data'=>$databases]);
     }
 
     /**

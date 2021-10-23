@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Database;
 use Illuminate\Http\Request;
 use App\Models\Table;
 
@@ -31,9 +32,17 @@ class TablesController extends Controller
 
     public function destroy($id)
     {
-        Table::query()->where('id',$id)->delete();
+        Table::query()->where('id', $id)->delete();
         return response()->json(['code' => 200, 'data' => '']);
     }
 
+    public function show(Request $request,$id)
+    {
+        $database = Database::query()->findOrFail($id);
+        $table = Table::query()->where('type_id', 2)
+            ->where('name',$request->name)
+            ->where('database_id', $database->id)->first();
+        return response()->json(['code' => 200, 'data' => $table]);
+    }
 
 }
